@@ -5,13 +5,11 @@ This repository supports the below features:
 • User Management:
 
          o Endpoints for CRUD operations on users.
-
          o Each user should have a username, email, password (hashed), and roles
 
 • Role Management:
 
          o Endpoints for CRUD operations on roles
-         
          o Each role should have a unique name and description.
 
 • Authentication:
@@ -26,6 +24,5 @@ This repository supports the below features:
 
 • Database Interaction:
 
-         o Use SQLite, SQL Server or any preferred relational database for saving and retrieving data.
-
-  o Use Entity Framework for managing users and roles
+         o SQL Server is used for saving and retrieving data.
+         o Entity Framework is used for managing users and roles
