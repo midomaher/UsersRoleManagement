@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using JwtRoleAuthentication.Services;
-
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,41 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+var supportedCultures = new[] { "en-US", "ar-EG", "fr-FR" };
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var cultures = supportedCultures.Select(c =>
+    {
+        try { return new CultureInfo(c); }
+        catch { return CultureInfo.InvariantCulture; }
+    }).ToList();
+
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = cultures;
+    options.SupportedUICultures = cultures;
+
+    options.RequestCultureProviders = new[]
+    {
+        new CustomRequestCultureProvider(context =>
+        {
+            var cultureName = context.Request.Headers["X-Language"].FirstOrDefault() ?? "en-US";
+
+            CultureInfo culture;
+            try
+            {
+                culture = new CultureInfo(cultureName);
+            }
+            catch
+            {
+                culture = CultureInfo.InvariantCulture;
+            }
+
+            return Task.FromResult(new ProviderCultureResult(culture.Name, culture.Name));
+        })
+    };
+});
+
 builder.Services.AddProblemDetails();
 builder.Services.AddApiVersioning();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
@@ -51,7 +87,7 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 // Add DB Contexts
 // Move the connection string to user secrets for release
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-    opt.UseNpgsql("Host=localhost;Database=postgres;Username=postgres;Password=devpass"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register our TokenService dependency
 builder.Services.AddScoped<TokenService, TokenService>();
@@ -121,6 +157,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStatusCodePages();
+
+app.UseRequestLocalization();
 
 app.UseAuthentication();
 app.UseAuthorization();
