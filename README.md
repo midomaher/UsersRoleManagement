@@ -19,7 +19,5 @@ o Endpoint for refreshing JWT tokens.
 o Include the parameter X-Language in the header request ex. {"en-US", "ar-EG", "fr-FR"}
 
 • Database Interaction:
-o Use SQLite, SQL Server or any preferred relational database for saving and retrieving
-
-data.
+o Use SQLite, SQL Server or any preferred relational database for saving and retrieving data.
 o Use Entity Framework for managing users and roles
