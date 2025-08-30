@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JwtRoleAuthentication.Domain\JwtRoleAuthentication.Domain.csproj" />
+    <ProjectReference Include="..\UsersRoleManagement.Shared\UsersRoleManagement.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

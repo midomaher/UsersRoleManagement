@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\JwtRoleAuthentication.Application\JwtRoleAuthentication.Application.csproj" />
     <ProjectReference Include="..\JwtRoleAuthentication.Domain\JwtRoleAuthentication.Domain.csproj" />
-    <ProjectReference Include="..\JwtRoleAuthentication.Shared\JwtRoleAuthentication.Shared.csproj" />
+    <ProjectReference Include="..\UsersRoleManagement.Shared\UsersRoleManagement.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
