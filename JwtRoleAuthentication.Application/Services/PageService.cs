@@ -1,4 +1,5 @@
-﻿using JwtRoleAuthentication.Application.DTOs;
+﻿using AutoMapper;
+using JwtRoleAuthentication.Application.DTOs;
 using JwtRoleAuthentication.Application.Interfaces.Repositories;
 using JwtRoleAuthentication.Application.Interfaces.Services;
 using JwtRoleAuthentication.Domain.Models;
@@ -12,55 +13,31 @@ namespace JwtRoleAuthentication.Application.Services
 {
     public class PageService : IPageService
     {
-        private readonly IPageRepository _repo;
-        public PageService(IPageRepository repo) {
+        private readonly IPageRepository _repo; private readonly IMapper _mapper;
+        public PageService(IPageRepository repo, IMapper mapper)
+        {
             _repo = repo;
+            _mapper = mapper;
         }
         public async Task<PageDto> CreateAsync(PageDto pageDto)
         {
-            var page = new Page
-            {
-                Id = pageDto.Id,
-                Title = pageDto.Title,
-                Author = pageDto.Author,
-                Body = pageDto.Body,
-            };
+            var page = _mapper.Map<Page>(pageDto);
+
             await _repo.AddAsync(page);
 
-            var pageDtoObj = new PageDto
-            {
-                Id = page.Id,
-                Title = page.Title,
-                Author = page.Author,
-                Body = page.Body,
-            };
-            return pageDtoObj;
+            return _mapper.Map<PageDto>(page);
         }
 
         public async Task<List<PageDto>> GetAllPagesAsync()
         {
-            var users = await _repo.GetAllAsync();
-            return users.Select(page => new PageDto
-            {
-                Id = page.Id,
-                Author = page.Author,
-                Body = page.Body,
-                Title = page.Title
-            }).ToList();
+            var pages = await _repo.GetAllAsync();
+            return _mapper.Map<List<PageDto>>(pages);
         }
 
         public async Task<PageDto> GetByIdAsync(int id)
         {
             var page = await _repo.GetByIdAsync(id);
-
-            var pageDtoObj = new PageDto
-            {
-                Id = page.Id,
-                Title = page.Title,
-                Author = page.Author,
-                Body = page.Body,
-            };
-            return pageDtoObj;
+            return _mapper.Map<PageDto>(page);
         }
     }
 }

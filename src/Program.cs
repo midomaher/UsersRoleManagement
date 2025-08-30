@@ -17,6 +17,10 @@ using JwtRoleAuthentication.Application.Interfaces.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register AutoMapper
+builder.Services.AddAutoMapper(typeof(JwtRoleAuthentication.Application.Mappings.MappingProfile));
+
+
 // Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -1,0 +1,3 @@
+﻿C:\Users\mo.ibrahim\source\repos\asp-net-core8-jwt-example>dotnet ef migrations add InitialCreate --project JwtRoleAuthentication.Infrastructure --startup-project src
+
+C:\Users\mo.ibrahim\source\repos\asp-net-core8-jwt-example>dotnet ef database update --project JwtRoleAuthentication.Infrastructure --startup-project src
