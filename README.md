@@ -22,13 +22,13 @@ This repository supports the below features:
 
          o Include the parameter X-Language in the header request ex. {"en-US", "ar-EG", "fr-FR"}
 
+• Database Interaction:
+
+         o SQL Server is used for saving and retrieving data.
+         o Entity Framework is used for managing users and roles
+
 • Clean Architecture
 
 • Error Logging
 
 • Automapper
-
-• Database Interaction:
-
-         o SQL Server is used for saving and retrieving data.
-         o Entity Framework is used for managing users and roles
