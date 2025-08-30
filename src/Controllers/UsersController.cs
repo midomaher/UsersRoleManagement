@@ -59,7 +59,7 @@ public class UsersController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var result = _userService.Authenticate(request);
+        var result = await _userService.Authenticate(request);
 
         return Ok(result);
     }
