@@ -1,4 +1,4 @@
-namespace JwtRoleAuthentication.Models;
+namespace JwtRoleAuthentication.Application.DTOs;
 
 public class PageDto
 {

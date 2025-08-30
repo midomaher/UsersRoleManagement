@@ -1,7 +1,6 @@
-using JwtRoleAuthentication.Enums;
 using Microsoft.AspNetCore.Identity;
 
-namespace JwtRoleAuthentication.Models;
+namespace JwtRoleAuthentication.Domain.Models;
 
 public class ApplicationUser : IdentityUser
 {

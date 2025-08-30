@@ -1,4 +1,4 @@
-﻿using JwtRoleAuthentication.Models;
+﻿using JwtRoleAuthentication.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

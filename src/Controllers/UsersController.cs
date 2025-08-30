@@ -1,7 +1,6 @@
-using JwtRoleAuthentication.Data;
-using JwtRoleAuthentication.Enums;
-using JwtRoleAuthentication.Models;
-using JwtRoleAuthentication.Services;
+using JwtRoleAuthentication.Application.DTOs;
+using JwtRoleAuthentication.Application.Interfaces.Services;
+using JwtRoleAuthentication.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,15 +11,16 @@ namespace JwtRoleAuthentication.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ApplicationDbContext _context;
-    private readonly TokenService _tokenService;
+    private readonly ITokenService _tokenService;
+    private readonly IUserService _userService;
 
-    public UsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext context,
-        TokenService tokenService, ILogger<UsersController> logger)
+
+    public UsersController(UserManager<ApplicationUser> userManager,
+        ITokenService tokenService, IUserService userService, ILogger<UsersController> logger)
     {
         _userManager = userManager;
-        _context = context;
         _tokenService = tokenService;
+        _userService = userService;
     }
 
 
@@ -33,10 +33,7 @@ public class UsersController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var result = await _userManager.CreateAsync(
-            new ApplicationUser { UserName = request.Username, Email = request.Email },
-            request.Password!
-        );
+        var result = await _userService.CreateAsync(request);
         
         if (result.Succeeded)
         {
@@ -62,35 +59,8 @@ public class UsersController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var managedUser = await _userManager.FindByEmailAsync(request.Email!);
-        
-        if (managedUser == null)
-        {
-            return BadRequest("Bad credentials");
-        }
+        var result = _userService.Authenticate(request);
 
-        var isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password!);
-        
-        if (!isPasswordValid)
-        {
-            return BadRequest("Bad credentials");
-        }
-
-        var userInDb = _context.Users.FirstOrDefault(u => u.Email == request.Email);
-        
-        if (userInDb is null)
-        {
-            return Unauthorized();
-        }
-
-        var accessToken = await _tokenService.CreateToken(userInDb);
-        await _context.SaveChangesAsync();
-
-        return Ok(new AuthResponse
-        {
-            Username = userInDb.UserName,
-            Email = userInDb.Email,
-            Token = accessToken,
-        });
+        return Ok(result);
     }
 }

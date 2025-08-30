@@ -1,10 +1,9 @@
-using JwtRoleAuthentication.Enums;
-using JwtRoleAuthentication.Models;
+using JwtRoleAuthentication.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace JwtRoleAuthentication.Data;
+namespace JwtRoleAuthentication.Infrastructure;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

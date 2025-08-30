@@ -1,4 +1,4 @@
-using JwtRoleAuthentication.Models;
+using JwtRoleAuthentication.Application.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace JwtRoleAuthentication.Services;
@@ -9,8 +9,12 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using JwtRoleAuthentication.Domain.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using JwtRoleAuthentication.Application.Interfaces.Services;
 
-public class TokenService
+public class TokenService : ITokenService
 {
     private const int ExpirationMinutes = 60;
     private readonly ILogger<TokenService> _logger;

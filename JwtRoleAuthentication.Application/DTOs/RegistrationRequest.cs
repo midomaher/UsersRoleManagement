@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using JwtRoleAuthentication.Enums;
 
-namespace JwtRoleAuthentication.Models;
+namespace JwtRoleAuthentication.Application.DTOs;
 
 public class RegistrationRequest
 {

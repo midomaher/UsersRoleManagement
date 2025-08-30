@@ -1,15 +1,19 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using JwtRoleAuthentication.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using JwtRoleAuthentication.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using JwtRoleAuthentication.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using JwtRoleAuthentication.Domain.Models;
+using JwtRoleAuthentication.Application.Services;
+using JwtRoleAuthentication.Infrastructure.Repositories;
+using JwtRoleAuthentication.Infrastructure;
+using JwtRoleAuthentication.Application.Interfaces.Services;
+using JwtRoleAuthentication.Application.Interfaces.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -114,6 +118,11 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPageRepository, PageRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPageService, PageService>();
 
 // These will eventually be moved to a secrets file, but for alpha development appsettings is fine
 var validIssuer = builder.Configuration.GetValue<string>("JwtTokenSettings:ValidIssuer");

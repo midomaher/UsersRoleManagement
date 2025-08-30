@@ -1,4 +1,4 @@
-namespace JwtRoleAuthentication.Models;
+namespace JwtRoleAuthentication.Domain.Models;
 
 public class AuthResponse
 {
